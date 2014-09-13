@@ -10,7 +10,7 @@ var config = {
     },
     port: 3000,
     db: 'mongodb://localhost/barcode-monsters-webservice-development'
-    
+
   },
 
   test: {
@@ -20,7 +20,7 @@ var config = {
     },
     port: 3000,
     db: 'mongodb://localhost/barcode-monsters-webservice-test'
-    
+
   },
 
   production: {
@@ -30,7 +30,7 @@ var config = {
     },
     port: 3000,
     db: 'mongodb://localhost/barcode-monsters-webservice-production'
-    
+
   }
 };
 
