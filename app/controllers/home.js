@@ -2,20 +2,27 @@
 var express = require('express'),
     router = express.Router(),
     model = require('../models'),
-    readData = model.readData,
-    writeData = model.writeData;
+    apiConnect = require('../lib/apiConnect')
+
 
 module.exports = function(app) {
     app.use('/', router);
 };
 
 router.get('/', function(req, res, next) {
-    console.log(readData)
-    var data = readData()
-    data.then(function(donedata){
-      res.send(200,donedata)
-    })
-    // data.then(function(a) {
-    //     console.log(a);
-    // })
+    console.log(req.params)
+
+    res.send(200, ['nothing here'])
+        // data.then(function(a) {
+        //     console.log(a);
+        // })
+});
+
+router.get('/barcode/:id?', function(req, res, next) {
+
+    console.log(apiConnect);
+    res.send(200, req.params)
+        // data.then(function(a) {
+        //     console.log(a);
+        // })
 });
