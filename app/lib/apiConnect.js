@@ -1,34 +1,8 @@
 'use strict';
+var prequest = require('./prequest');
+var Promise = require('bluebird');
 
-
-var request = require('request');
-var Promise = require("bluebird");
-
-// lib function
-function prequest(url, options) {
-    options = options || {};
-    if (typeof url === 'string') {
-        options.url = url;
-    } else {
-        options = url;
-    }
-    options.json = options.hasOwnProperty('json') ? options.json : true;
-
-    return new Promise(function(resolve, reject) {
-        request(options, function(error, response, body) {
-            if (error) {
-                reject(error);
-            } else if (response.statusCode >= 400) {
-                reject(response);
-            } else if (options.arrayResponse) {
-                resolve([response, body]);
-            } else {
-                resolve(body);
-            }
-        });
-    });
-}
-
+var sessionToken, refreshToken, url = 'https://mobile.tesco.com/groceryapi/restservice.aspx?COMMAND=TOKEN';
 //Tokens
 var apiDetailsRefresh = {
     grant_type: 'password',
@@ -41,38 +15,70 @@ var apiDetailsRefresh = {
 
 
 var getApiDetailsSession = function(token, details) {
-    token.grant_type = "refresh_token"
-    token.refresh_token = details.refresh_token;
-    return token;
+    details.grant_type = "refresh_token"
+    details.refresh_token = token;
+    return details;
 };
 
 // Methods
 var getRefreshToken = function() {
     var refreshTokenRequest = prequest({
-        url: 'https://mobile.tesco.com/groceryapi/restservice.aspx?COMMAND=TOKEN',
+        url: url,
         form: apiDetailsRefresh,
         method: 'post'
-    }).then(getSessionToken)
+    })
 
     return refreshTokenRequest;
 };
 
-var getSessionToken = function(data) {
-    var apiDetailsSession = getApiDetailsSession(apiDetailsRefresh,data)
-
+var getSessionToken = function(token) {
+    var apiDetailsSession = getApiDetailsSession(token, apiDetailsRefresh)
     var sessionTokenRequest = prequest({
-        url: 'https://mobile.tesco.com/groceryapi/restservice.aspx?COMMAND=TOKEN',
+        url: url,
         form: apiDetailsSession,
         method: 'post'
-    })
+    }).then(extractToken)
     return sessionTokenRequest
 };
 
-var getToken = function() {
-    var token = getRefreshToken(apiDetailsRefresh)
-        .then(getSessionToken)
+var extractToken = function(obj) {
+    return obj.access_token
+}
 
-    return token
+// updates the session token at every expiry Date
+var keepTokenFresh = function(tokenDetails) {
+    sessionToken = tokenDetails.access_token;
+    refreshToken = tokenDetails.refresh_token;
+
+    var expiryMillisecs = tokenDetails.expires_in * 900
+    //timeout to wait until first expiry
+    setTimeout(function() {
+    //interval for every subsequent expiry
+        setInterval(function() {
+            getSessionToken(refreshToken)
+                .then(function(token) {
+                    sessionToken = token
+                })
+        }, expiryMillisecs)
+    }, expiryMillisecs)
+
+    return tokenDetails;
+}
+
+
+//chec
+var getToken = function() {
+    if (typeof sessionToken != 'undefined') {
+        console.log("returning saved token")
+        return Promise.resolve(sessionToken);
+    } else {
+        var token = getRefreshToken(apiDetailsRefresh)
+            .then(keepTokenFresh)
+            .then(extractToken)
+
+        return token
+    }
+
 };
 
 module.exports = getToken

@@ -12,7 +12,7 @@ var query = {
 }
 
 var getGroceryByBarcode = function(token, barcode) {
-    query.sessionkey = token.access_token;
+    query.sessionkey = token
     query.SEARCHTEXT = barcode;
     var groceryRequest = prequest(url, {
         qs: query, //querystring!
