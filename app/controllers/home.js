@@ -20,6 +20,8 @@ router.get('/barcode/:barcode?', function(req, res, next) {
         }).then(
             function(data) {
                 res.send(200, data)
+            }, function(err){
+                res.send(500, err)
             }
         )
 });
