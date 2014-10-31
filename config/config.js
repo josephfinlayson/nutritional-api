@@ -9,7 +9,7 @@ var config = {
       name: 'barcode-monsters-webservice'
     },
     port: 3000,
-    db: 'mongodb://localhost/barcode-monsters-webservice-development'
+    // db: 'mongodb://localhost/barcode-monsters-webservice-development'
 
   },
 
@@ -19,7 +19,7 @@ var config = {
       name: 'barcode-monsters-webservice'
     },
     port: 3000,
-    db: 'mongodb://localhost/barcode-monsters-webservice-test'
+    // db: 'mongodb://localhost/barcode-monsters-webservice-test'
 
   },
 
@@ -29,7 +29,7 @@ var config = {
       name: 'barcode-monsters-webservice'
     },
     port: 3000,
-    db: 'mongodb://localhost/barcode-monsters-webservice-production'
+    // db: 'mongodb://localhost/barcode-monsters-webservice-production'
 
   }
 };
