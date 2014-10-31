@@ -2,7 +2,9 @@
 var express = require('express'),
     router = express.Router(),
     model = require('../models'),
-    apiConnect = require('../lib/apiConnect')
+    apiConnect = require('../lib/apiConnect'),
+    grocerySearch = require('../lib/grocerySearch')
+
 
 
 module.exports = function(app) {
@@ -18,10 +20,17 @@ router.get('/', function(req, res, next) {
         // })
 });
 
-router.get('/barcode/:id?', function(req, res, next) {
+router.get('/barcode/:barcode?', function(req, res, next) {
 
-    console.log(apiConnect);
-    res.send(200, req.params)
+    apiConnect()
+        .then(function(token) {
+            return grocerySearch(token, req.params.barcode)
+        }).then(
+            function(stuff) {
+                console.log(stuff)
+                res.send(200, stuff)
+            }
+        )
         // data.then(function(a) {
         //     console.log(a);
         // })
