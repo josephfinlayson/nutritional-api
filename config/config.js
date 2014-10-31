@@ -28,7 +28,7 @@ var config = {
     app: {
       name: 'barcode-monsters-webservice'
     },
-    port: 3000,
+    port: 80,
     // db: 'mongodb://localhost/barcode-monsters-webservice-production'
 
   }
