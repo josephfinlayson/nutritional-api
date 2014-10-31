@@ -3,7 +3,7 @@ var express = require('express'),
     config = require('./config/config'),
     // glob = require('glob'),
     // mongoose = require('mongoose'),
-    coffee = require('coffee-script'),
+    coffee = require('coffee-script');
 
 // mongoose.connect(config.db);
 // var db = mongoose.connection;
