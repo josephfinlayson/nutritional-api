@@ -1,0 +1,72 @@
+{
+    "RDA_Calories_Count": "185",
+    "RDA_Calories_Percent": "0",
+    "RDA_Sugar_Grammes": "3",
+    "RDA_Sugar_Percent": "0",
+    "RDA_Fat_Grammes": "0",
+    "RDA_Fat_Percent": "0",
+    "RDA_Saturates_Grammes": "0",
+    "RDA_Saturates_Percent": "1",
+    "RDA_Salt_Grammes": "0",
+    "RDA_Salt_Percent": "0",
+    "Nutrients": [{
+        "NutrientName": "Energy ",
+        "SampleDescription": "Typical values per 250g",
+        "SampleSize": "185kcal",
+        "ServingDescription": "-",
+        "ServingSize": "-"
+    }, {
+        "NutrientName": "-",
+        "SampleDescription": "Typical values per 250g",
+        "SampleSize": "788kj",
+        "ServingDescription": "-",
+        "ServingSize": "-"
+    }, {
+        "NutrientName": "Protein ",
+        "SampleDescription": "Typical values per 250g",
+        "SampleSize": "3.7g",
+        "ServingDescription": "-",
+        "ServingSize": "-"
+    }, {
+        "NutrientName": "Carbohydrates",
+        "SampleDescription": "Typical values per 250g",
+        "SampleSize": "44g",
+        "ServingDescription": "-",
+        "ServingSize": "-"
+    }, {
+        "NutrientName": "of which sugars ",
+        "SampleDescription": "Typical values per 250g",
+        "SampleSize": "2.75g",
+        "ServingDescription": "-",
+        "ServingSize": "-"
+    }, {
+        "NutrientName": "Fat ",
+        "SampleDescription": "Typical values per 250g",
+        "SampleSize": "0.25g",
+        "ServingDescription": "-",
+        "ServingSize": "-"
+    }, {
+        "NutrientName": "of which saturates ",
+        "SampleDescription": "Typical values per 250g",
+        "SampleSize": "trace",
+        "ServingDescription": "-",
+        "ServingSize": "-"
+    }, {
+        "NutrientName": "Fibre ",
+        "SampleDescription": "Typical values per 250g",
+        "SampleSize": "2.25g",
+        "ServingDescription": "-",
+        "ServingSize": "-"
+    }, {
+        "NutrientName": "Sodium ",
+        "SampleDescription": "Typical values per 250g",
+        "SampleSize": "trace",
+        "ServingDescription": "-",
+        "ServingSize": "-"
+    }],
+    "UnitType": "kg",
+    "Name": "Greenvale Potatoes 2Kg",
+    "ImagePath": "http://img.tesco.com/Groceries/pi/026/5012782494026/IDShot_90x90.jpg",
+    "ProductId": "268132813",
+    "BaseProductId": "67401380"
+}

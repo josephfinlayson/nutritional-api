@@ -42,7 +42,8 @@ var checkIfResultCorrect = function(data) {
         }
     };
     throw {
-        err: 'productNotFound'
+        err: 'barcodeNotFound',
+        product: data.Products
     }
 };
 
@@ -72,3 +73,5 @@ var getGroceryByBarcode = function(token, barcode) {
 
 
 module.exports = getGroceryByBarcode
+
+
