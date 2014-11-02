@@ -1,3 +1,4 @@
+'use strict;'
 // The model uses a simple scoring system where points are allocated on the basis of the
 // nutrient content of 100g of a food or drink. Points are awarded for ‘A’ nutrients (energy,
 // saturated fat, total sugar and sodium), and for ‘C’ nutrients (fruit, vegetables and nut content,
@@ -21,20 +22,42 @@ var sodium = [90, 90, 180, 270, 360, 450, 540, 630, 720, 810]
 
 function calculatePointsforNutrient(nutrientName, amount) {
 
+}
+
+function removeWhiteSpaceAndNormalize(nutrient) {
+    for (key in nutrient) {
+        nutrient[key] = nutrient[key].trim().toLowerCase();
+    	if (key == 'SampleDescription') {
+    		var gramRegex = /([0-9]+)g+/;
+    		correctedNutrient = gramRegex.exec(nutrient[key])
+    	}
+    }
+
+	return nutrient
 
 }
+
+function extractNutrientName(nutrient) {
+
+
+}
+
+function calculateNumbersFromGrams(nutrient) {
+
+}
+
 
 function cleanUpNutrientArray(nutrientArray) {
     for (var i = nutrientArray.length - 1; i >= 0; i--) {
         nutrientArray[i]
     };
     _.chain(nutrientArray)
-        .map(removeWhiteSpace)
-        .map(lowerCaseThings)
-        .map(calculateNumbersfromGrams)
+        .map(removeWhiteSpaceAndNormalize)
+        .map(extractNutrientName)
+        .map(calculateNumbersFromGrams)
 }
 
 
-function nutrientProfile() {
+(function nutrientProfile() {
     var cleanedUp = cleanUpNutrientArray(json.Nutrients)
-}
+})()
