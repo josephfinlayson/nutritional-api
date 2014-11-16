@@ -5,10 +5,10 @@ var express = require('express'),
     grocerySearch = require('../lib/grocerySearch'),
     cors = require('cors')
 module.exports = function(app) {
+    app.use(cors());
     app.use('/', router);
 };
 
-app.use(cors());
 router.get('/', function(req, res, next) {
     res.send(200, ['nothing here'])
 });
@@ -21,7 +21,8 @@ router.get('/barcode/:barcode?', function(req, res, next) {
         }).then(
             function(data) {
                 res.send(200, data)
-            }, function(err){
+            },
+            function(err) {
                 res.send(500, err)
             }
         )
