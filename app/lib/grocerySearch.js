@@ -37,7 +37,7 @@ var checkIfResultCorrect = function(data) {
         }
     }
     for (var i = data.Products.length - 1; i >= 0; i--) {
-        if (data.Products[i].EANBarcode == globalBarcode) {
+        if (data.Products[i].EANBarcode.indexOf(globalBarcode+'')) {
             return data.Products[i]
         }
     };
@@ -73,5 +73,3 @@ var getGroceryByBarcode = function(token, barcode) {
 
 
 module.exports = getGroceryByBarcode
-
-
