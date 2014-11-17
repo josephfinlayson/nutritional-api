@@ -34,7 +34,9 @@ var query = {
 var checkIfResultCorrect = function(data) {
     if (!data.Products || data.Products.length === 0) {
         throw {
-            err: 'productNotFound'
+            err: 'productNotFound',
+            barcode: globalBarcode,
+            badProducts: 0
         }
     }
     for (var i = data.Products.length - 1; i >= 0; i--) {
@@ -45,7 +47,8 @@ var checkIfResultCorrect = function(data) {
 
     throw {
         err: 'barcodeNotFound',
-        barcode: globalBarcode
+        barcode: globalBarcode,
+        badProducts: data.Products,
     }
 };
 
