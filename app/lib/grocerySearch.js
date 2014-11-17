@@ -20,7 +20,8 @@ var requiredFields = [
     "ImagePath",
     "Ingredients",
     "ProductId",
-    "BaseProductId"
+    "BaseProductId",
+    "EANBarcode"
 ];
 var query = {
     COMMAND: 'PRODUCTSEARCH',
@@ -37,18 +38,18 @@ var checkIfResultCorrect = function(data) {
         }
     }
     for (var i = data.Products.length - 1; i >= 0; i--) {
-        if (data.Products[i].EANBarcode.indexOf(globalBarcode+'')) {
+        if (data.Products[i].EANBarcode.indexOf(globalBarcode) >= 0) {
             return data.Products[i]
         }
     };
+
     throw {
         err: 'barcodeNotFound',
-        product: data.Products
+        barcode: globalBarcode
     }
 };
 
 var extractCorrectData = function(product) {
-    console.log(product)
     return _.pick(product, requiredFields)
 };
 
