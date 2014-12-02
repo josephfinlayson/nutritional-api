@@ -11,29 +11,31 @@ var express = require('express'),
 function checkIfCached(barcodeString) {
     var deferred = Promise.defer()
         // var barcode = new Barcode()
-    var found = Barcode.find(function(err, stuffs) {
+    Barcode.find({
+        barcode: barcodeString
+    }, function(err, stuffs) {
         if (stuffs[0]) {
-            deferred.resolve(stuffs);
-
+            deferred.resolve(stuffs[0].info);
         } else {
             deferred.reject({
-                err: "not Cached"
+                err: "notCached"
             })
         }
     })
 
-    return deferred.promise
+    return deferred.promise;
 }
 
 function cacheInfo(info) {
+    var barcode = new Barcode({
+        barcode: info.EANBarcode,
+        info: info
+    });
 
+    barcode.save()
     return info;
 }
 
-module.exports = function(app) {
-    app.use(cors());
-    app.use('/', router);
-};
 
 router.get('/barcode/:barcode?', function(req, res, next) {
 
@@ -42,6 +44,7 @@ router.get('/barcode/:barcode?', function(req, res, next) {
     }
 
     function returnError(err) {
+        console.log(err);
         res.send(500, err)
     }
 
@@ -53,10 +56,19 @@ router.get('/barcode/:barcode?', function(req, res, next) {
         })
         .then(cacheInfo)
         .then(returnInfo, returnError)
-
 });
 
+router.get('/admin', function(req, res, next) {
+    Barcode.find(function(err, data) {
+        res.send(data);
+    });
+});
 
 router.get('/*', function(req, res, next) {
     res.send(200, ['nothing here'])
 });
+
+module.exports = function(app) {
+    app.use(cors());
+    app.use('/', router);
+};
