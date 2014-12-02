@@ -9,27 +9,15 @@ var config = {
       name: 'barcode-monsters-webservice'
     },
     port: 3000,
-    // db: 'mongodb://localhost/barcode-monsters-webservice-development'
-
+    db: 'mongodb://localhost/barcode-monsters-webservice-development'
   },
-
-  test: {
-    root: rootPath,
-    app: {
-      name: 'barcode-monsters-webservice'
-    },
-    port: 3000,
-    // db: 'mongodb://localhost/barcode-monsters-webservice-test'
-
-  },
-
   production: {
     root: rootPath,
     app: {
       name: 'barcode-monsters-webservice'
     },
     port: process.env.PORT || 80,
-    // db: 'mongodb://localhost/barcode-monsters-webservice-production'
+    db: 'mongodb://barcodeM:monsterpassword@ds053190.mongolab.com:53190/heroku_app31149656'
 
   }
 };

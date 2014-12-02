@@ -2,7 +2,9 @@
 var prequest = require('./prequest');
 var Promise = require('bluebird');
 
-var sessionToken, refreshToken, url = 'https://mobile.tesco.com/groceryapi/restservice.aspx?COMMAND=TOKEN';
+var sessionToken,
+    refreshToken,
+    url = 'https://mobile.tesco.com/groceryapi/restservice.aspx?COMMAND=TOKEN';
 //Tokens
 var apiDetailsRefresh = {
     grant_type: 'password',
@@ -21,10 +23,10 @@ var getApiDetailsSession = function(token, details) {
 };
 
 // Methods
-var getRefreshToken = function() {
+var getRefreshToken = function(form, url) {
     var refreshTokenRequest = prequest({
         url: url,
-        form: apiDetailsRefresh,
+        form: form,
         method: 'post'
     })
 
@@ -51,9 +53,9 @@ var keepTokenFresh = function(tokenDetails) {
     refreshToken = tokenDetails.refresh_token;
 
     var expiryMillisecs = tokenDetails.expires_in * 900
-    //timeout to wait until first expiry
+        //timeout to wait until first expiry
     setTimeout(function() {
-    //interval for every subsequent expiry
+        //interval for every subsequent expiry
         setInterval(function() {
             getSessionToken(refreshToken)
                 .then(function(token) {
@@ -72,10 +74,9 @@ var getToken = function() {
         console.log("returning saved token")
         return Promise.resolve(sessionToken);
     } else {
-        var token = getRefreshToken(apiDetailsRefresh)
+        var token = getRefreshToken(apiDetailsRefresh, url)
             .then(keepTokenFresh)
             .then(extractToken)
-
         return token
     }
 
