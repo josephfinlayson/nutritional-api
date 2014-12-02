@@ -3,7 +3,8 @@ var express = require('express'),
     config = require('./config/config'),
     glob = require('glob'),
     mongoose = require('mongoose'),
-    coffee = require('coffee-script');
+    coffee = require('coffee-script'),
+    tokenInit = require('./lib/apiConnect');
 
 mongoose.connect(config.db);
 var db = mongoose.connection;
@@ -16,6 +17,9 @@ var models = glob.sync(config.root + '/app/models/*.js');
 models.forEach(function(model) {
     require(model);
 });
+
+//start fetching token on launch
+tokenInit();
 
 var app = express();
 
