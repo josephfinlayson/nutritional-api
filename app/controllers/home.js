@@ -41,6 +41,7 @@ router.get('/barcode/:barcode?', function(req, res, next) {
 
     function returnInfo(data) {
         res.send(200, data)
+        return false
     }
 
     function returnError(err) {
@@ -49,15 +50,18 @@ router.get('/barcode/:barcode?', function(req, res, next) {
     }
 
     checkIfCached(req.params.barcode)
-        //success, failure
-        .then(returnInfo, apiConnect)
-        .then(function(token) {
-            return grocerySearch(token, req.params.barcode)
+        .then(returnInfo, function() {
+            //if not cached
+
+            apiConnect(req.params.barcode)
+                .then(function(token) {
+                    return grocerySearch(token, req.params.barcode)
+                })
+                .then(function(info) {
+                    return cacheInfo(info, req.params.barcode)
+                })
+                .then(returnInfo, returnError)
         })
-        .then(function(info) {
-            return cacheInfo(info, req.params.barcode)
-        })
-        .then(returnInfo, returnError)
 });
 
 router.get('/admin', function(req, res, next) {
