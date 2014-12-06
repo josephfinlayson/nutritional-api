@@ -4,7 +4,7 @@ var express = require('express'),
     glob = require('glob'),
     mongoose = require('mongoose'),
     coffee = require('coffee-script'),
-    tokenInit = require('./lib/apiConnect');
+    tokenInit = require('./app/lib/apiConnect');
 
 mongoose.connect(config.db);
 var db = mongoose.connection;
