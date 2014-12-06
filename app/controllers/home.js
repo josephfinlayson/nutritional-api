@@ -26,9 +26,9 @@ function checkIfCached(barcodeString) {
     return deferred.promise;
 }
 
-function cacheInfo(info) {
+function cacheInfo(info, search) {
     var barcode = new Barcode({
-        barcode: info.EANBarcode,
+        barcode: search,
         info: info
     });
 
@@ -54,7 +54,9 @@ router.get('/barcode/:barcode?', function(req, res, next) {
         .then(function(token) {
             return grocerySearch(token, req.params.barcode)
         })
-        .then(cacheInfo)
+        .then(function(info) {
+            return cacheInfo(info, req.params.barcode)
+        })
         .then(returnInfo, returnError)
 });
 
