@@ -59,6 +59,7 @@ router.get('/barcode/:barcode?', function (req, res, next) {
 
 	function returnError(err, perf) {
 		var barcodeMonstersDuration =  now() - bcApiStart;
+		console.log(perf)
 		var groceryCallDuration = perf.tescoCall[1] - perf.tescoCall[0];
 		var handshakeCallDuration = perf.tescoHandshake[1] - perf.tescoHandshake[0];
 
@@ -68,7 +69,7 @@ router.get('/barcode/:barcode?', function (req, res, next) {
 			handshakeCallDuration:handshakeCallDuration
 		};
 
-		console.log(err);
+		//console.log(err);
 		res.send(500, err)
 	}
 
@@ -85,20 +86,23 @@ router.get('/barcode/:barcode?', function (req, res, next) {
 			apiConnect(req.params.barcode)
 				.then(function (token) {
 
-					tescoHandshake[1] = tescoCall[0]
-					now()
+					tescoHandshake[1] = tescoCall[0] = now();
 					return grocerySearch(token, req.params.barcode)
 				})
 				.then(function (info) {
 
-					tescoCall[1] = now()
+					tescoCall[1] = now();
+
+					console.log("a", tescoCall)
 					return cacheInfo(info, req.params.barcode)
 				})
 				.then(function (data) {
 
 					returnInfo(data, {tescoHandshake: tescoHandshake, tescoCall: tescoCall});
 				}, function (data) {
-
+						if(!tescoCall[1]) {
+							tescoCall[1] = now();
+						}
 					returnError(data, {tescoHandshake: tescoHandshake, tescoCall: tescoCall});
 				})
 		})
