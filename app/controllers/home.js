@@ -97,7 +97,10 @@ router.get('/barcode/:barcode?', function (req, res, next) {
 				.then(function (data) {
 
 					returnInfo(data, {tescoHandshake: tescoHandshake, tescoCall: tescoCall});
-				}, returnError)
+				}, function (data) {
+
+					returnError(data, {tescoHandshake: tescoHandshake, tescoCall: tescoCall});
+				})
 		})
 });
 
