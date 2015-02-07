@@ -52,7 +52,7 @@ router.get('/barcode/:barcode?', function (req, res, next) {
 			groceryCallDuration:groceryCallDuration,
 			handshakeCallDuration:handshakeCallDuration
 		};
-		
+
 		res.send(200, data)
 		return false
 	}
