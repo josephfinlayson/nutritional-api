@@ -57,7 +57,7 @@ router.get('/barcode/:barcode?', function (req, res, next) {
 		return false
 	}
 
-	function returnError(err) {
+	function returnError(err, perf) {
 		var barcodeMonstersDuration =  now() - bcApiStart;
 		var groceryCallDuration = perf.tescoCall[1] - perf.tescoCall[0];
 		var handshakeCallDuration = perf.tescoHandshake[1] - perf.tescoHandshake[0];
