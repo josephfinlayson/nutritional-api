@@ -43,9 +43,11 @@ router.get('/barcode/:barcode?', function (req, res, next) {
 	var bcApiStart = now()
 
 	function returnInfo(data, perf) {
+		 console.log(perf)
 		var barcodeMonstersDuration =  now() - bcApiStart;
-		var groceryCallDuration = perf.tescoCall[1] - perf.tescoCall[0];
-		var handshakeCallDuration = perf.tescoHandshake[1] - perf.tescoHandshake[0];
+		var groceryCallDuration = perf.tescoCall ? perf.tescoCall[1] - perf.tescoCall[0] : 0;
+		var handshakeCallDuration = perf.tescoHandshake ? perf.tescoHandshake[1] - perf.tescoHandshake[0]: 0;
+
 
 		data.duration = {
 			barcodeMonstersDuration:barcodeMonstersDuration,
@@ -61,8 +63,8 @@ router.get('/barcode/:barcode?', function (req, res, next) {
 
 	function returnError(err, perf) {
 		console.log(perf)
-		var groceryCallDuration = perf.tescoCall[1] - perf.tescoCall[0];
-		var handshakeCallDuration = perf.tescoHandshake[1] - perf.tescoHandshake[0];
+		var groceryCallDuration = perf.tescoCall ? perf.tescoCall[1] - perf.tescoCall[0] : 0;
+		var handshakeCallDuration = perf.tescoHandshake ? perf.tescoHandshake[1] - perf.tescoHandshake[0]: 0;
 
 		var barcodeMonstersDuration =  now() - bcApiStart - handshakeCallDuration - groceryCallDuration;
 
@@ -77,7 +79,11 @@ router.get('/barcode/:barcode?', function (req, res, next) {
 	}
 
 	checkIfCached(req.params.barcode)
-		.then(returnInfo, function () {
+		.then(function (data) {
+			console.log('a')
+			returnInfo(data, {});
+
+		}, function () {
 			//if not cached
 
 
@@ -100,8 +106,9 @@ router.get('/barcode/:barcode?', function (req, res, next) {
 					return cacheInfo(info, req.params.barcode)
 				})
 				.then(function (data) {
-
+					console.log('a')
 					returnInfo(data, {tescoHandshake: tescoHandshake, tescoCall: tescoCall});
+
 				}, function (data) {
 						if(!tescoCall[1]) {
 							tescoCall[1] = now();
