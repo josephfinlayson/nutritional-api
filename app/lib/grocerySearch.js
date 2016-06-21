@@ -3,6 +3,7 @@ var prequest = require("./prequest");
 var _ = require('lodash')
 var globalBarcode;
 var url = 'http://mobile.tesco.com/groceryapi/RESTService.aspx'
+var tescoCantWriteJSON = require('json5')
 var requiredFields = [
     "RDA_Calories_Count",
     "RDA_Calories_Percent",
@@ -31,24 +32,31 @@ var query = {
     version: '2.0'
 }
 
-var checkIfResultCorrect = function(data) {
-    if (!data.Products || data.Products.length === 0) {
+var checkIfResultCorrect = function(response) {
+    console.log(response);
+    if (typeof response === 'string') {
+        response = tescoCantWriteJSON.parse(response)
+    }
+    if (!response.Products || response.Products.length === 0) {
+
         throw {
             err: 'productNotFound',
             barcode: globalBarcode,
-            badProducts: 0
+            badProducts: 0,
+            otherErrorDetails: response
         }
     }
-    for (var i = data.Products.length - 1; i >= 0; i--) {
-        if (data.Products[i].EANBarcode.indexOf(globalBarcode) >= 0) {
-            return data.Products[i]
+
+    for (var i = response.Products.length - 1; i >= 0; i--) {
+        if (response.Products[i].EANBarcode.indexOf(globalBarcode) >= 0) {
+            return response.Products[i]
         }
-    };
+    }
 
     throw {
         err: 'barcodeNotFound',
         barcode: globalBarcode,
-        badProducts: data.Products,
+        badProducts: response.Products
     }
 };
 
